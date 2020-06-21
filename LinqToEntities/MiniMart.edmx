@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MINI_MARTModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CATEGORIES">
+          <Key>
+            <PropertyRef Name="Category_ID" />
+          </Key>
+          <Property Name="Category_ID" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Category_Name" Type="nvarchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PRODUCTS">
+          <Key>
+            <PropertyRef Name="Product_ID" />
+          </Key>
+          <Property Name="Product_ID" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Product_CategoryID" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Product_Name" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Product_Price" Type="int" Nullable="false" />
+          <Property Name="Product_Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RECEIPTS">
+          <Key>
+            <PropertyRef Name="Receipt_ID" />
+          </Key>
+          <Property Name="Receipt_ID" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Product_ID" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Product_Amount" Type="int" Nullable="false" />
+          <Property Name="Receipt_Date" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_PRODUCTS_TO_CATEGORIES">
+          <End Role="CATEGORIES" Type="Self.CATEGORIES" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PRODUCTS" Type="Self.PRODUCTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CATEGORIES">
+              <PropertyRef Name="Category_ID" />
+            </Principal>
+            <Dependent Role="PRODUCTS">
+              <PropertyRef Name="Product_CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCTS_TO_RECEIPTS">
+          <End Role="PRODUCTS" Type="Self.PRODUCTS" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RECEIPTS" Type="Self.RECEIPTS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTS">
+              <PropertyRef Name="Product_ID" />
+            </Principal>
+            <Dependent Role="RECEIPTS">
+              <PropertyRef Name="Product_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MINI_MARTModelStoreContainer">
+          <EntitySet Name="CATEGORIES" EntityType="Self.CATEGORIES" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PRODUCTS" EntityType="Self.PRODUCTS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RECEIPTS" EntityType="Self.RECEIPTS" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_PRODUCTS_TO_CATEGORIES" Association="Self.FK_PRODUCTS_TO_CATEGORIES">
+            <End Role="CATEGORIES" EntitySet="CATEGORIES" />
+            <End Role="PRODUCTS" EntitySet="PRODUCTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCTS_TO_RECEIPTS" Association="Self.FK_PRODUCTS_TO_RECEIPTS">
+            <End Role="PRODUCTS" EntitySet="PRODUCTS" />
+            <End Role="RECEIPTS" EntitySet="RECEIPTS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MINI_MARTModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CATEGORy">
+          <Key>
+            <PropertyRef Name="Category_ID" />
+          </Key>
+          <Property Name="Category_ID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Category_Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="PRODUCTS" Relationship="Self.FK_PRODUCTS_TO_CATEGORIES" FromRole="CATEGORIES" ToRole="PRODUCTS" />
+        </EntityType>
+        <EntityType Name="PRODUCT">
+          <Key>
+            <PropertyRef Name="Product_ID" />
+          </Key>
+          <Property Name="Product_ID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Product_CategoryID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Product_Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Product_Price" Type="Int32" Nullable="false" />
+          <Property Name="Product_Status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CATEGORy" Relationship="Self.FK_PRODUCTS_TO_CATEGORIES" FromRole="PRODUCTS" ToRole="CATEGORIES" />
+          <NavigationProperty Name="RECEIPTS" Relationship="Self.FK_PRODUCTS_TO_RECEIPTS" FromRole="PRODUCTS" ToRole="RECEIPTS" />
+        </EntityType>
+        <EntityType Name="RECEIPT">
+          <Key>
+            <PropertyRef Name="Receipt_ID" />
+          </Key>
+          <Property Name="Receipt_ID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Product_ID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Product_Amount" Type="Int32" Nullable="false" />
+          <Property Name="Receipt_Date" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="PRODUCT" Relationship="Self.FK_PRODUCTS_TO_RECEIPTS" FromRole="RECEIPTS" ToRole="PRODUCTS" />
+        </EntityType>
+        <Association Name="FK_PRODUCTS_TO_CATEGORIES">
+          <End Role="CATEGORIES" Type="Self.CATEGORy" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PRODUCTS" Type="Self.PRODUCT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CATEGORIES">
+              <PropertyRef Name="Category_ID" />
+            </Principal>
+            <Dependent Role="PRODUCTS">
+              <PropertyRef Name="Product_CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PRODUCTS_TO_RECEIPTS">
+          <End Role="PRODUCTS" Type="Self.PRODUCT" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RECEIPTS" Type="Self.RECEIPT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PRODUCTS">
+              <PropertyRef Name="Product_ID" />
+            </Principal>
+            <Dependent Role="RECEIPTS">
+              <PropertyRef Name="Product_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MINI_MARTEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CATEGORIES" EntityType="Self.CATEGORy" />
+          <EntitySet Name="PRODUCTS" EntityType="Self.PRODUCT" />
+          <EntitySet Name="RECEIPTS" EntityType="Self.RECEIPT" />
+          <AssociationSet Name="FK_PRODUCTS_TO_CATEGORIES" Association="Self.FK_PRODUCTS_TO_CATEGORIES">
+            <End Role="CATEGORIES" EntitySet="CATEGORIES" />
+            <End Role="PRODUCTS" EntitySet="PRODUCTS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PRODUCTS_TO_RECEIPTS" Association="Self.FK_PRODUCTS_TO_RECEIPTS">
+            <End Role="PRODUCTS" EntitySet="PRODUCTS" />
+            <End Role="RECEIPTS" EntitySet="RECEIPTS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MINI_MARTModelStoreContainer" CdmEntityContainer="MINI_MARTEntities">
+          <EntitySetMapping Name="CATEGORIES">
+            <EntityTypeMapping TypeName="MINI_MARTModel.CATEGORy">
+              <MappingFragment StoreEntitySet="CATEGORIES">
+                <ScalarProperty Name="Category_ID" ColumnName="Category_ID" />
+                <ScalarProperty Name="Category_Name" ColumnName="Category_Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PRODUCTS">
+            <EntityTypeMapping TypeName="MINI_MARTModel.PRODUCT">
+              <MappingFragment StoreEntitySet="PRODUCTS">
+                <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
+                <ScalarProperty Name="Product_CategoryID" ColumnName="Product_CategoryID" />
+                <ScalarProperty Name="Product_Name" ColumnName="Product_Name" />
+                <ScalarProperty Name="Product_Price" ColumnName="Product_Price" />
+                <ScalarProperty Name="Product_Status" ColumnName="Product_Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RECEIPTS">
+            <EntityTypeMapping TypeName="MINI_MARTModel.RECEIPT">
+              <MappingFragment StoreEntitySet="RECEIPTS">
+                <ScalarProperty Name="Receipt_ID" ColumnName="Receipt_ID" />
+                <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
+                <ScalarProperty Name="Product_Amount" ColumnName="Product_Amount" />
+                <ScalarProperty Name="Receipt_Date" ColumnName="Receipt_Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
