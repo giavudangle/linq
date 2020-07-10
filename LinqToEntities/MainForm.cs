@@ -307,5 +307,273 @@ namespace LinqToEntities
             Calculate();
         }
         #endregion
+        private void btnStatistic_Click(object sender, EventArgs e)
+        {
+            fStatistic f = new fStatistic();
+            f.Show();
+        }
+
+        private void btnFind_Click(object sender, EventArgs e)
+        {
+            FindSingleProduct();
+        }
+
+        private void FindSingleProduct()
+        {
+          
+            string product = txtProductFind.Text;
+            var res = from p in db.PRODUCTS
+                      join c in db.CATEGORIES
+                      on p.Product_CategoryID equals c.Category_ID
+                      where p.Product_Name.Contains(product)                     
+                      select new
+                      {
+                          ProductID = p.Product_ID,
+                          ProductCategory = c.Category_Name,
+                          ProductName = p.Product_Name,
+                          ProductPrice = p.Product_Price,
+                          ProductStatus = p.Product_Status
+                      };
+            ControlProducts_DataSource(res.ToList());
+
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            LoadData_Products();
+        }
+
+        private void btnSortNameAsc_Click(object sender, EventArgs e)
+        {
+            SortProductName_Ascending();
+        }
+
+        private void btnSortNameDsc_Click(object sender, EventArgs e)
+        {
+            SortProductName_Descending();
+
+        }
+
+        private void SortProductName_Ascending() {
+            var data = from p in db.PRODUCTS
+                       join c in db.CATEGORIES
+                       on p.Product_CategoryID equals c.Category_ID
+                       orderby p.Product_Name
+                       select new
+                       {
+                           ProductID = p.Product_ID,
+                           ProductCategory = c.Category_Name,
+                           ProductName = p.Product_Name,
+                           ProductPrice = p.Product_Price,
+                           ProductStatus = p.Product_Status
+                       };
+            ControlProducts_DataSource(data.ToList());
+            Products_DataBinding();
+        }
+        private void SortProductName_Descending() {
+            var data = from p in db.PRODUCTS
+                       join c in db.CATEGORIES
+                       on p.Product_CategoryID equals c.Category_ID
+                       orderby p.Product_Name descending
+                       select new
+                       {
+                           ProductID = p.Product_ID,
+                           ProductCategory = c.Category_Name,
+                           ProductName = p.Product_Name,
+                           ProductPrice = p.Product_Price,
+                           ProductStatus = p.Product_Status
+                       };
+            ControlProducts_DataSource(data.ToList());
+            Products_DataBinding();
+        }
+
+        private void btnSortCategorytAsc_Click(object sender, EventArgs e)
+        {
+            SortCategory_Ascending();
+        }
+
+        private void btnSortCategorytDsc_Click(object sender, EventArgs e)
+        {
+            SortCategory_Descending();
+        }
+
+        private void SortCategory_Ascending()
+        {
+            var data = from p in db.PRODUCTS
+                       join c in db.CATEGORIES
+                       on p.Product_CategoryID equals c.Category_ID
+                       orderby p.Product_CategoryID 
+                       select new
+                       {
+                           ProductID = p.Product_ID,
+                           ProductCategory = c.Category_Name,
+                           ProductName = p.Product_Name,
+                           ProductPrice = p.Product_Price,
+                           ProductStatus = p.Product_Status
+                       };
+            ControlProducts_DataSource(data.ToList());
+            Products_DataBinding();
+        }
+
+        private void SortCategory_Descending()
+        {
+            var data = from p in db.PRODUCTS
+                       join c in db.CATEGORIES
+                       on p.Product_CategoryID equals c.Category_ID
+                       orderby p.Product_CategoryID descending
+                       select new
+                       {
+                           ProductID = p.Product_ID,
+                           ProductCategory = c.Category_Name,
+                           ProductName = p.Product_Name,
+                           ProductPrice = p.Product_Price,
+                           ProductStatus = p.Product_Status
+                       };
+            ControlProducts_DataSource(data.ToList());
+            Products_DataBinding();
+        }
+
+        private void btnSortPriceAsc_Click(object sender, EventArgs e)
+        {
+            SortPrice_Ascending();
+        }
+
+        private void btnSortPriceDsc_Click(object sender, EventArgs e)
+        {
+            SortPrice_Descending();
+
+        }
+
+        private void SortPrice_Ascending()
+        {
+            var data = from p in db.PRODUCTS
+                       join c in db.CATEGORIES
+                       on p.Product_CategoryID equals c.Category_ID
+                       orderby p.Product_Price 
+                       select new
+                       {
+                           ProductID = p.Product_ID,
+                           ProductCategory = c.Category_Name,
+                           ProductName = p.Product_Name,
+                           ProductPrice = p.Product_Price,
+                           ProductStatus = p.Product_Status
+                       };
+            ControlProducts_DataSource(data.ToList());
+            Products_DataBinding();
+        }
+
+        private void SortPrice_Descending()
+        {
+            var data = from p in db.PRODUCTS
+                       join c in db.CATEGORIES
+                       on p.Product_CategoryID equals c.Category_ID
+                       orderby p.Product_Price descending
+                       select new
+                       {
+                           ProductID = p.Product_ID,
+                           ProductCategory = c.Category_Name,
+                           ProductName = p.Product_Name,
+                           ProductPrice = p.Product_Price,
+                           ProductStatus = p.Product_Status
+                       };
+            ControlProducts_DataSource(data.ToList());
+            Products_DataBinding();
+        }
+
+        private void btnFilterActive_CheckedChanged(object sender, EventArgs e)
+        {
+            FilterActiveProductStatus();
+        }
+
+        private void btnFilterNotActive_CheckedChanged(object sender, EventArgs e)
+        {
+            FilterNoActiveProductStatus();
+
+        }
+
+        private void FilterActiveProductStatus()
+        {
+            var data = from p in db.PRODUCTS
+                       join c in db.CATEGORIES
+                       on p.Product_CategoryID equals c.Category_ID
+                       where p.Product_Status == true
+                       select new
+                       {
+                           ProductID = p.Product_ID,
+                           ProductCategory = c.Category_Name,
+                           ProductName = p.Product_Name,
+                           ProductPrice = p.Product_Price,
+                           ProductStatus = p.Product_Status
+                       };
+            ControlProducts_DataSource(data.ToList());
+            Products_DataBinding();
+        }
+
+        private void FilterNoActiveProductStatus()
+        {
+            var data = from p in db.PRODUCTS
+                       join c in db.CATEGORIES
+                       on p.Product_CategoryID equals c.Category_ID
+                       where p.Product_Status == false
+                       select new
+                       {
+                           ProductID = p.Product_ID,
+                           ProductCategory = c.Category_Name,
+                           ProductName = p.Product_Name,
+                           ProductPrice = p.Product_Price,
+                           ProductStatus = p.Product_Status
+                       };
+            ControlProducts_DataSource(data.ToList());
+            Products_DataBinding();
+        }
+
+        private void btnGroupBy_Category_Click(object sender, EventArgs e)
+        {
+            GroupBy_Category();
+        }
+
+        private void GroupBy_Category()
+        {
+
+            var rawData =
+                from s in db.PRODUCTS
+                group s by s.Product_CategoryID;
+
+            var result =
+                from r in rawData
+                join c in db.CATEGORIES
+                on r.Key equals c.Category_ID
+                select new
+                {                     
+                    CategoryName =  c.Category_Name,
+                    Amount  = r.Count()                   
+                };
+            ControlProducts_DataSource(result.ToList());                      
+        }
+
+        private void btnGroupBy_ProductName_Click(object sender, EventArgs e)
+        {
+            GroupBy_ProductName();
+        }
+
+        private void GroupBy_ProductName()
+        {
+            var rawData =
+               from s in db.PRODUCTS
+               group s by s.Product_Name;
+              
+
+            var result =
+                from r in rawData
+                join c in db.PRODUCTS
+                on r.Key equals c.Product_Name
+                select new
+                {
+                    ProductName = c.Product_Name,
+                    Amount = r.Count()
+                };
+            ControlProducts_DataSource(result.ToList());
+        }
     }
+
 }
