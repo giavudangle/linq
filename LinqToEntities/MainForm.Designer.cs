@@ -96,6 +96,7 @@
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
+            this.btnExport = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dtGridProducts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtGridReceipts)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -403,6 +404,7 @@
             // groupBox3
             // 
             this.groupBox3.BackColor = System.Drawing.Color.Red;
+            this.groupBox3.Controls.Add(this.btnExport);
             this.groupBox3.Controls.Add(this.btnStatistic);
             this.groupBox3.Controls.Add(this.txtPriceReceipt);
             this.groupBox3.Controls.Add(this.label11);
@@ -427,9 +429,9 @@
             // 
             // btnStatistic
             // 
-            this.btnStatistic.Location = new System.Drawing.Point(277, 142);
+            this.btnStatistic.Location = new System.Drawing.Point(277, 119);
             this.btnStatistic.Name = "btnStatistic";
-            this.btnStatistic.Size = new System.Drawing.Size(127, 52);
+            this.btnStatistic.Size = new System.Drawing.Size(127, 35);
             this.btnStatistic.TabIndex = 28;
             this.btnStatistic.Text = "STATISTIC";
             this.btnStatistic.UseVisualStyleBackColor = true;
@@ -487,9 +489,10 @@
             // 
             // btnAddOrder
             // 
-            this.btnAddOrder.Location = new System.Drawing.Point(277, 19);
+            this.btnAddOrder.ForeColor = System.Drawing.Color.Black;
+            this.btnAddOrder.Location = new System.Drawing.Point(277, 29);
             this.btnAddOrder.Name = "btnAddOrder";
-            this.btnAddOrder.Size = new System.Drawing.Size(127, 56);
+            this.btnAddOrder.Size = new System.Drawing.Size(127, 33);
             this.btnAddOrder.TabIndex = 22;
             this.btnAddOrder.Text = "ADD ORDER";
             this.btnAddOrder.UseVisualStyleBackColor = true;
@@ -497,9 +500,9 @@
             // 
             // btnCal
             // 
-            this.btnCal.Location = new System.Drawing.Point(277, 81);
+            this.btnCal.Location = new System.Drawing.Point(277, 72);
             this.btnCal.Name = "btnCal";
-            this.btnCal.Size = new System.Drawing.Size(127, 53);
+            this.btnCal.Size = new System.Drawing.Size(127, 35);
             this.btnCal.TabIndex = 20;
             this.btnCal.Text = "CALCULATE";
             this.btnCal.UseVisualStyleBackColor = true;
@@ -762,6 +765,16 @@
             this.label20.TabIndex = 9;
             this.label20.Text = "DANH SÁCH HÓA ĐƠN";
             // 
+            // btnExport
+            // 
+            this.btnExport.Location = new System.Drawing.Point(277, 167);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(127, 32);
+            this.btnExport.TabIndex = 29;
+            this.btnExport.Text = "EXPORT";
+            this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -863,6 +876,7 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Button btnExport;
     }
 }
 
